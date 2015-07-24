@@ -1,20 +1,9 @@
+apply plugin: 'com.jfrog.bintray'
 apply plugin: 'groovy'
-apply plugin: 'nexus'
 
 ext {
-    bintrayRepo = 'maven'
-    bintrayName = 'gradplug'
-
-    publishedGroupId = 'hu.virgo.plugin'
     libraryName = 'GradPlug'
     artifact = 'gradplug'
-
-    libraryDescription = 'This library is do nothing'
-
-    siteUrl = 'https://github.com/oriLaciVirgo/GradPlugTest'
-    gitUrl = 'https://github.com/oriLaciVirgo/GradPlugTest.git'
-
-    libraryVersion = '0.1'
 
     developerId = 'orilaszlo'
     developerName = 'Őri László'
@@ -22,11 +11,37 @@ ext {
 
     licenseName = 'The Apache Software License, Version 2.0'
     licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
 }
 
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+group = 'hu.virgo.plugin'
+version = '0.1.1'
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    pkg {
+        repo = 'maven'
+        name = 'gradplug'
+        desc = 'This library is do nothing.'
+        websiteUrl = 'https://github.com/oriLaciVirgo/GradPlugTest'
+        vcsUrl = 'https://github.com/oriLaciVirgo/GradPlugTest.git'
+        licenses = ["Apache-2.0"]
+        publish = true
+        publicDownloadNumbers = true
+        version {
+            desc = 'This library is do nothing.'
+            gpg {
+                sign = true
+                passphrase = properties.getProperty("bintray.gpg.password")
+            }
+        }
+    }
+}
 
 dependencies {
     compile gradleApi()

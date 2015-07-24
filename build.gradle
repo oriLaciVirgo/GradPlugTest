@@ -6,7 +6,6 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.2.3'
-        classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.7.1'
         classpath 'org.aspectj:aspectjtools:1.8.6'
         classpath 'com.github.dcendents:android-maven-plugin:1.2'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
