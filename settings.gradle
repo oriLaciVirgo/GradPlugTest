@@ -1,1 +1,1 @@
-include ':gradplug'
+include ':gradplug', ':ninjalib'
