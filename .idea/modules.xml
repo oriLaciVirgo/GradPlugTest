@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GradPlugTest.iml" filepath="$PROJECT_DIR$/GradPlugTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/gradplug/gradplug.iml" filepath="$PROJECT_DIR$/gradplug/gradplug.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gradplug/gradplug.iml" filepath="$PROJECT_DIR$/gradplug/gradplug.iml" />
     </modules>
   </component>
 </project>
