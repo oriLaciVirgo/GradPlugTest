@@ -24,7 +24,7 @@ class GradPlug implements Plugin<Project> {
         def variants = hasApp ? project.android.applicationVariants : project.android.libraryVariants
 
         project.dependencies {
-            compile 'hu.virgo.ninjalib:ninjalib:0.1.0'
+            compile 'hu.virgo.ninjalib:ninjalib:0.1.4' //TODO: Don't forget to update the version number.
             compile 'org.aspectj:aspectjrt:1.8.6'
         }
 

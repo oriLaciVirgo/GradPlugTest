@@ -3,6 +3,9 @@ import org.aspectj.bridge.IMessage
 import org.aspectj.bridge.MessageHandler
 import org.aspectj.tools.ajc.Main
 
+import static org.apache.tools.ant.taskdefs.condition.Os.FAMILY_WINDOWS
+import static org.apache.tools.ant.taskdefs.condition.Os.isFamily
+
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.bintray'
 
@@ -66,12 +69,19 @@ android.libraryVariants.all { variant ->
 }
 
 ext {
+    publishedGroupId = 'hu.virgo.ninjalib'
     libraryName = 'NinjaLib'
     artifact = 'ninjalib'
 
     developerId = 'orilaszlo'
     developerName = 'Őri László'
     developerEmail = 'ori.laszlo@virgo.hu'
+
+    libraryVersion = '0.1.4'
+    libraryDescription = 'This library is do nothing.'
+
+    siteUrl = 'https://github.com/oriLaciVirgo/GradPlugTest'
+    gitUrl = 'https://github.com/oriLaciVirgo/GradPlugTest.git'
 
     licenseName = 'The Apache Software License, Version 2.0'
     licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
@@ -80,8 +90,8 @@ ext {
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
-group = 'hu.virgo.ninjalib'
-version = '0.1.0'
+version = libraryVersion
+group = publishedGroupId
 
 bintray {
     user = properties.getProperty("bintray.user")
@@ -91,7 +101,7 @@ bintray {
     pkg {
         repo = 'maven'
         name = 'NinjaLib'
-        desc = 'This library is do nothing.'
+        desc = libraryDescription
         websiteUrl = 'https://github.com/oriLaciVirgo/GradPlugTest'
         vcsUrl = 'https://github.com/oriLaciVirgo/GradPlugTest.git'
         licenses = ["Apache-2.0"]
@@ -106,3 +116,5 @@ bintray {
         }
     }
 }
+
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
