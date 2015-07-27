@@ -20,30 +20,35 @@ class GradPlug implements Plugin<Project> {
             throw new IllegalStateException("'android' or 'android-plugin' library required")
         }
 
-        def log = project.logger
-        def variants = hasApp ? project.android.applicationVariants : project.android.libraryVariants
+        final def log = project.logger
+        final def variants = hasApp ? project.android.applicationVariants : project.android.libraryVariants
 
         project.dependencies {
-            compile 'hu.virgo.ninjalib:ninjalib:0.1.4' //TODO: Don't forget to update the version number.
+            compile 'hu.virgo.ninjalib:ninjalib:0.1.6' //TODO: Don't forget to update the version number.
             compile 'org.aspectj:aspectjrt:1.8.6'
         }
 
         variants.all { variant ->
+            if (!variant.buildType.isDebuggable()) {
+                log.debug("Skipping non-debuggable build type '${variant.buildType.name}'.")
+                return;
+            }
+
             variant.dex.doFirst {
                 String[] args = [
                         "-showWeaveInfo",
                         "-1.5",
                         "-inpath", javaCompile.destinationDir.toString(),
-                        "-aspectpath", javaCompile.classPath.asPath,
+                        "-aspectpath", javaCompile.classpath.asPath,
                         "-d", javaCompile.destinationDir.toString(),
-                        "-classpath", javaCompile.classPath.asPath,
+                        "-classpath", javaCompile.classpath.asPath,
                         "-bootclasspath", project.android.bootClasspath.join(File.pathSeparator)
                 ]
                 log.debug "ajc args: " + Arrays.toString(args)
 
-                MessageHandler messageHandler = new MessageHandler(true);
-                new Main().run(args, messageHandler);
-                for (IMessage message: messageHandler.getMessages(null, true)) {
+                MessageHandler handler = new MessageHandler(true);
+                new Main().run(args, handler);
+                for (IMessage message : handler.getMessages(null, true)) {
                     switch (message.getKind()) {
                         case IMessage.ABORT:
                         case IMessage.ERROR:
